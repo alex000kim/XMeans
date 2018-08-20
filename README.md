@@ -1,2 +1,5 @@
 # XMeans
-Implementation of X-means clustering algorithm
+Implementation of XMeans algorithm based on
+Pelleg, Dan, and Andrew W. Moore. "X-means: Extending K-means with Efficient Estimation of the Number of Clusters."
+ICML. Vol. 1. 2000.
+https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
