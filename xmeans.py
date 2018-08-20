@@ -7,7 +7,7 @@ https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
 
 import numpy as np
 import pandas as pd
-from sklearn.cluster import KMeans as sklearn_KMeans
+from sklearn.cluster import KMeans
 
 EPS = np.finfo(float).eps
 
@@ -46,7 +46,7 @@ def get_additonal_k_split(K, X, clst_labels, clst_centers, n_features, K_sub, k_
         clst_variance = np.sum((clst_points - clst_centers[clst_index]) ** 2) / float(clst_size - 1)
         bic_before_split[clst_index] = loglikelihood(clst_size, clst_size, clst_variance, n_features,
                                                      1) - clst_n_params / 2.0 * np.log(clst_size)
-        kmeans_subclst = sklearn_KMeans(n_clusters=K_sub, **k_means_args).fit(clst_points)
+        kmeans_subclst = KMeans(n_clusters=K_sub, **k_means_args).fit(clst_points)
         subclst_labels = kmeans_subclst.labels_
         subclst_centers = kmeans_subclst.cluster_centers_
         log_likelihood = 0
@@ -69,7 +69,7 @@ def get_additonal_k_split(K, X, clst_labels, clst_centers, n_features, K_sub, k_
     return add_k
 
 
-class XMeans(sklearn_KMeans):
+class XMeans(KMeans):
     def __init__(self, kmax=50, max_iter=1000, **k_means_args):
         """
 
@@ -94,7 +94,7 @@ class XMeans(sklearn_KMeans):
         iter_num = 0
         while not stop_splitting and iter_num < self.max_iter:
             K_old = K
-            kmeans = sklearn_KMeans(n_clusters=K, **self.k_means_args).fit(X)
+            kmeans = KMeans(n_clusters=K, **self.k_means_args).fit(X)
             clst_labels = kmeans.labels_
             clst_centers = kmeans.cluster_centers_
             # Iterate through all clusters and determine if further split is necessary
@@ -104,7 +104,7 @@ class XMeans(sklearn_KMeans):
             stop_splitting = K_old == K or K >= self.KMax
             iter_num = iter_num + 1
         # Run vanilla KMeans with the number of clusters determined above
-        kmeans = sklearn_KMeans(n_clusters=K_old, **self.k_means_args).fit(X)
+        kmeans = KMeans(n_clusters=K_old, **self.k_means_args).fit(X)
         self.labels_ = kmeans.labels_
         self.cluster_centers_ = kmeans.cluster_centers_
         self.inertia_ = kmeans.inertia_
