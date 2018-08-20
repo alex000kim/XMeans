@@ -13,21 +13,20 @@ def setup_data():
     yield xm_clust, labels_true
 
 def test_num_clusters_detected(setup_data):
-	# Ensure the number of created clusters matches the number of detected
-	xm_clust, labels_true = setup_data
-	N_clust_pred = len(set(xm_clust.labels_))
-	assert N == N_clust_pred
+    # Ensure the number of created clusters matches the number of detected
+    xm_clust, labels_true = setup_data
+    N_clust_pred = len(set(xm_clust.labels_))
+    assert N == N_clust_pred
 
 def test_cluster_allocation(setup_data):
-	# Ensure there one-to-one mapping between cluster labels
+    # Ensure there one-to-one mapping between cluster labels
     xm_clust, labels_true = setup_data
     labels_pred = xm_clust.labels_
     label_map = {}
     for l_true, l_pred in zip(labels_true, labels_pred):
-    	if l_true not in label_map:
-    		label_map[l_true] = [l_pred]
-    	else:
-    		label_map[l_true].append(l_pred)
-    
+        if l_true not in label_map:
+            label_map[l_true] = [l_pred]
+        else:
+            label_map[l_true].append(l_pred)
     for key, value in label_map.items():
-    	assert len(set(value)) == 1
+        assert len(set(value)) == 1
