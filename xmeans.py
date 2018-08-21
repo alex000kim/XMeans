@@ -6,7 +6,6 @@ https://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
 """
 
 import numpy as np
-import pandas as pd
 from sklearn.cluster import KMeans
 
 EPS = np.finfo(float).eps
